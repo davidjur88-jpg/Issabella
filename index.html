@@ -10,11 +10,13 @@
     <style>
         /* --- CSS Variables for the Luxury Theme --- */
         :root {
-            --primary-purple: #4A148C; /* Deep, elegant purple */
+            --primary-purple: #4A148C; 
             --soft-lavender: #E1BEE7;
-            --gold-accent: #D4AF37; /* Premium gold */
+            --gold-accent: #D4AF37; 
             --pure-white: #FFFFFF;
+            --off-white: #FAFAFA;
             --text-dark: #333333;
+            --footer-bg: #1A1A1A;
             
             --font-heading: 'Playfair Display', serif;
             --font-body: 'Montserrat', sans-serif;
@@ -27,26 +29,31 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth; /* Makes clicking nav links scroll smoothly */
+        }
+
         body {
             font-family: var(--font-body);
             color: var(--text-dark);
             background-color: var(--pure-white);
             line-height: 1.6;
+            overflow-x: hidden; 
         }
 
-        h1, h2, h3 {
+        h1, h2, h3, h4 {
             font-family: var(--font-heading);
             color: var(--primary-purple);
         }
 
-        /* --- Navigation Bar --- */
+        /* --- Navigation Bar & Logo --- */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 5%;
+            padding: 15px 5%;
             background-color: var(--pure-white);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             position: fixed;
             width: 100%;
             top: 0;
@@ -54,16 +61,49 @@
         }
 
         .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1001;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 45px;
+            height: 45px;
+            background-color: var(--gold-accent);
+            color: var(--pure-white);
             font-family: var(--font-heading);
-            font-size: 1.5rem;
+            font-size: 1.8rem;
+            border-radius: 50%;
+        }
+
+        .logo-text {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
             font-weight: 700;
             color: var(--primary-purple);
+            line-height: 1.1;
+        }
+
+        .logo-text span {
+            display: block;
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            color: #777;
+            text-transform: uppercase;
         }
 
         .nav-links {
             list-style: none;
             display: flex;
             gap: 30px;
+            align-items: center;
         }
 
         .nav-links a {
@@ -77,6 +117,20 @@
             color: var(--gold-accent);
         }
 
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: var(--primary-purple);
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+
         /* --- Buttons --- */
         .btn-primary, .btn-secondary {
             padding: 12px 24px;
@@ -85,6 +139,8 @@
             font-weight: 600;
             transition: all 0.3s ease;
             cursor: pointer;
+            text-align: center;
+            display: inline-block;
         }
 
         .btn-primary {
@@ -109,19 +165,35 @@
             color: var(--primary-purple);
         }
 
+        .nav-btn {
+            display: block;
+        }
+
+        /* --- Keyframe Animations for Attention Grabber --- */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         /* --- Hero Section --- */
         .hero {
             height: 100vh;
-            /* Placeholder wedding image from Unsplash */
             background-image: url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop'); 
             background-size: cover;
             background-position: center;
+            background-attachment: fixed; /* Creates a slight parallax static effect */
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            margin-top: 70px; /* Offset for fixed navbar */
+            margin-top: 70px; 
         }
 
         .hero-overlay {
@@ -130,7 +202,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(74, 20, 140, 0.4); /* Purple tint overlay for readability */
+            background-color: rgba(74, 20, 140, 0.5); /* Slightly darker for text contrast */
         }
 
         .hero-content {
@@ -141,39 +213,209 @@
             padding: 0 20px;
         }
 
+        /* Applying the animations to hero elements with delays */
         .hero-content h1 {
             color: var(--pure-white);
-            font-size: 4rem;
+            font-size: 4.5rem;
             margin-bottom: 20px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            opacity: 0; 
+            animation: fadeInUp 1s ease-out forwards; 
         }
 
         .hero-content p {
             font-size: 1.2rem;
             margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.4s forwards; /* 0.4s delay */
         }
 
         .hero-buttons {
             display: flex;
             gap: 20px;
             justify-content: center;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.8s forwards; /* 0.8s delay */
+        }
+
+        /* --- About Us Section --- */
+        .about {
+            padding: 100px 5%;
+            background-color: var(--off-white);
+        }
+
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .about-image { flex: 1; }
+        .about-image img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .about-content { flex: 1; }
+        .about-content h2 { font-size: 3rem; margin-bottom: 5px; }
+        .subtitle { font-size: 1.2rem; color: var(--gold-accent); font-style: italic; margin-bottom: 25px; }
+        .about-content p { font-size: 1.05rem; margin-bottom: 20px; color: #555; }
+
+        /* --- Services Section --- */
+        .services {
+            padding: 100px 5%;
+            background-color: var(--pure-white);
+            text-align: center;
+        }
+
+        .services-header {
+            margin-bottom: 60px;
+        }
+
+        .services-header h2 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .services-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .service-card {
+            background-color: var(--off-white);
+            padding: 40px 30px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-bottom: 4px solid transparent;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px); /* Lifts up on hover */
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            border-bottom: 4px solid var(--gold-accent); /* Elegant gold accent on hover */
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .service-card h4 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .service-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* --- Footer Section --- */
+        .footer {
+            background-color: var(--footer-bg);
+            color: var(--pure-white);
+            padding: 60px 5% 20px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 40px;
+            border-bottom: 1px solid #444;
+            padding-bottom: 40px;
+            margin-bottom: 20px;
+        }
+
+        .footer-brand h3 {
+            color: var(--gold-accent);
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .footer-brand p {
+            color: #ccc;
+            max-width: 300px;
+        }
+
+        .footer-links h4 {
+            color: var(--pure-white);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links ul li a:hover {
+            color: var(--gold-accent);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        /* --- Mobile Responsiveness --- */
+        @media screen and (max-width: 768px) {
+            .hamburger { display: block; }
+            .nav-btn { display: none; }
+            .nav-links {
+                position: fixed; right: -100%; top: 0; height: 100vh;
+                background-color: var(--pure-white); display: flex;
+                flex-direction: column; align-items: center; justify-content: center;
+                width: 70%; transition: right 0.5s ease; box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            }
+            .nav-active { right: 0; }
+            .hero-content h1 { font-size: 2.8rem; }
+            .hero-buttons { flex-direction: column; gap: 15px; }
+            .about-container { flex-direction: column; text-align: center; gap: 40px; }
+            .footer-content { flex-direction: column; text-align: center; }
+            .footer-brand p { margin: 0 auto; }
         }
     </style>
 </head>
 <body>
 
     <header class="navbar">
-        <div class="logo">Meidas Event Hub</div>
+        <a href="#home" class="logo">
+            <div class="logo-icon">M</div>
+            <div class="logo-text">Meidas <span>Event Hub</span></div>
+        </a>
         <nav>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#services">Services</a></li>
-                <li><a href="#gallery">Gallery</a></li>
                 <li><a href="#contact">Contact</a></li>
+                <li class="hamburger-btn-link"><a href="#contact" style="color: var(--primary-purple); font-weight: bold;">Book Consultation</a></li>
             </ul>
         </nav>
-        <a href="#contact" class="btn-primary">Book Consultation</a>
+        <a href="#contact" class="btn-primary nav-btn">Book Consultation</a>
+        <div class="hamburger">
+            <div class="line1"></div><div class="line2"></div><div class="line3"></div>
+        </div>
     </header>
 
     <section id="home" class="hero">
@@ -187,6 +429,81 @@
             </div>
         </div>
     </section>
+
+    <section id="about" class="about">
+        <div class="about-container">
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2069&auto=format&fit=crop" alt="Issabella designing a wedding setup">
+            </div>
+            <div class="about-content">
+                <h2>Our Story</h2>
+                <h3 class="subtitle">Meet Issabella, The Visionary Behind The Magic</h3>
+                <p>Founded by passionate event planner Issabella, Meidas Event Hub was born from a deep love of celebrating life's most precious moments. With years of experience in the luxury event industry, Issabella realized that every couple deserves a stress-free, magical journey from the moment they say "yes" to the last dance.</p>
+                <p>Our mission is to blend timeless elegance with modern sophistication. Whether it is an intimate engagement, a joyful birthday, or a grand wedding celebration, we handle every intricate detail with precision and genuine care.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="services">
+        <div class="services-header">
+            <h2>Our Expertise</h2>
+            <p class="subtitle">Tailored services for your unforgettable moments</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">💍</div>
+                <h4>Wedding Planning</h4>
+                <p>Full-service planning from the venue selection to the final send-off, ensuring your big day is completely stress-free.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🥂</div>
+                <h4>Corporate Events</h4>
+                <p>Professional, polished, and impressive setups for galas, product launches, and corporate retreats.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">✨</div>
+                <h4>Decoration & Styling</h4>
+                <p>Breathtaking floral arrangements, elegant lighting, and custom decor designed to match your unique vision.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>Meidas Event Hub</h3>
+                <p>Crafting luxurious, romantic, and premium experiences for your most cherished life moments.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#services">Our Services</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Contact Issabella</h4>
+                <ul>
+                    <li>📞 +1 (555) 123-4567</li>
+                    <li>✉️ hello@meidaseventhub.com</li>
+                    <li>📍 123 Luxury Lane, Event City</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Meidas Event Hub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('nav-active');
+        });
+    </script>
 
 </body>
 </html>
